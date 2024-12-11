@@ -88,7 +88,7 @@ Type=simple
 User=$CURRENT_USER
 Group=$CURRENT_GROUP
 WorkingDirectory=$TARGET_DIR
-ExecStart=$NODE_PATH $TARGET_DIR/index.js
+ExecStart=$NODE_PATH $TARGET_DIR/server.js
 Restart=always
 
 [Install]
