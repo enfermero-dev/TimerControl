@@ -52,9 +52,13 @@
       fetch('/timer')
         .then(response => response.json())
         .then(data => {
-          const minutes = Math.floor(data.remaining / 60);
           const timeElement = document.getElementById('time');
-          timeElement.innerHTML = `${minutes}`;
+          if (data.running) {
+            const minutes = Math.floor(data.remaining / 60);
+            timeElement.innerHTML = `${minutes}`;
+          } else {
+            timeElement.innerHTML = '--';
+          }
 
           if (data.remaining <= 4 * 60) {
             document.body.style.backgroundColor = '#FA7E7EFF';
