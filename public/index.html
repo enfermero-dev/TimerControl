@@ -69,6 +69,8 @@
 
           if (data.remaining === 0) {
             timeElement.style.visibility = timeElement.style.visibility === 'hidden' ? 'visible' : 'hidden';
+          } else {
+            timeElement.style.visibility = 'visible'; // Asegúrate de que el texto sea visible cuando el temporizador no esté en 0
           }
 
           const indicator = document.getElementById('indicator');
