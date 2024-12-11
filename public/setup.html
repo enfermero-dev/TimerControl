@@ -37,6 +37,13 @@
       width: 100%;
       max-width: 400px;
     }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 20px;
+    }
     button {
       margin: 10px;
       padding: 10px 20px;
@@ -44,14 +51,32 @@
       width: 100%;
       max-width: 200px;
       border: none;
-      background-color: #007bff;
-      color: white;
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
-    button:hover {
-      background-color: #0056b3;
+    button.start {
+      background-color: #28a745;
+      color: white;
+    }
+    button.start:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+    }
+    button.pause {
+      background-color: #6c757d;
+      color: white;
+    }
+    button.pause:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+    }
+    button.reset {
+      background-color: #dc3545;
+      color: white;
+    }
+    button:hover:not(:disabled) {
+      opacity: 0.8;
     }
     input {
       margin: 10px;
@@ -75,11 +100,15 @@
   <h1>Configuración del Temporizador</h1>
   <h2>Controla y ajusta el temporizador</h2>
   <div class="controls">
-    <button onclick="startTimer()">Comenzar</button>
-    <button onclick="pauseTimer()">Pausar</button>
-    <button onclick="resetToTwenty()">Reiniciar a 20 minutos</button>
-    <input type="number" id="duration" placeholder="Minutos">
-    <button onclick="configureTimer()">Establecer duración</button>
+    <div class="control-group">
+      <button class="start" id="startButton" onclick="startTimer()">Comenzar</button>
+      <button class="pause" id="pauseButton" onclick="pauseTimer()">Pausar</button>
+      <button class="reset" onclick="resetToTwenty()">Reiniciar a 20 minutos</button>
+    </div>
+    <div class="control-group">
+      <input type="number" id="duration" placeholder="Minutos">
+      <button onclick="configureTimer()">Establecer duración</button>
+    </div>
   </div>
   <div class="status" id="status">Estado: Pausado</div>
   <div class="time-remaining" id="time-remaining">Tiempo restante: 20 min 0 sec</div>
@@ -124,11 +153,15 @@
     function updateStatus(data) {
       const statusElement = document.getElementById('status');
       const timeRemainingElement = document.getElementById('time-remaining');
+      const startButton = document.getElementById('startButton');
+      const pauseButton = document.getElementById('pauseButton');
       const minutes = Math.floor(data.remaining / 60);
       const seconds = data.remaining % 60;
-      timeRemainingElement.textContent = `Restante: ${minutes} min ${seconds} sec`;
+      timeRemainingElement.textContent = `Tiempo restante: ${minutes} min ${seconds} sec`;
       statusElement.textContent = `Estado: ${data.running ? 'Corriendo' : 'Pausado'}`;
       statusElement.style.color = data.running ? 'green' : 'red';
+      startButton.disabled = data.running;
+      pauseButton.disabled = !data.running;
     }
 
     function fetchTimerStatus() {
