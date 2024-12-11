@@ -1,0 +1,87 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: white;
+      color: black;
+    }
+    .timer {
+      font-size: 50vh;
+      text-align: center;
+      line-height: 1;
+      color: rgb(0, 0, 0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .min {
+      font-size: 10vh;
+      color: rgb(48, 48, 48);
+    }
+    .indicator {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      background-color: green;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div class="indicator" id="indicator"></div>
+  <div class="timer">
+    <span id="time">20</span>
+    <span class="min">min</span>
+  </div>
+  <script>
+    function updateTimer() {
+      fetch('/timer')
+        .then(response => response.json())
+        .then(data => {
+          const minutes = Math.floor(data.remaining / 60);
+          const timeElement = document.getElementById('time');
+          timeElement.innerHTML = `${minutes}`;
+
+          if (data.remaining <= 4 * 60) {
+            document.body.style.backgroundColor = '#FA7E7EFF';
+            document.body.style.color = 'white';
+          } else if (data.remaining <= 8 * 60) {
+            document.body.style.backgroundColor = 'orange';
+            document.body.style.color = 'black';
+          } else {
+            document.body.style.backgroundColor = 'white';
+            document.body.style.color = 'black';
+          }
+
+          if (data.remaining === 0) {
+            timeElement.style.visibility = timeElement.style.visibility === 'hidden' ? 'visible' : 'hidden';
+          }
+
+          const indicator = document.getElementById('indicator');
+          if (data.running) {
+            indicator.style.backgroundColor = 'green';
+          } else {
+            indicator.style.backgroundColor = 'red';
+          }
+        });
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+  </script>
+</body>
+</html>

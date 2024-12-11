@@ -1,0 +1,118 @@
+<!-- public/setup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup Timer</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      margin: 0;
+    }
+    h2 {
+      margin: 0;
+      margin-bottom: 30px;;
+      color: rgb(211, 211, 211);
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+    }
+    input {
+      margin: 10px;
+      padding: 10px;
+      font-size: 1rem;
+    }
+    .status {
+      margin: 20px;
+      font-size: 2rem;
+    }
+    .time-remaining {
+      margin: 20px;
+      font-size: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Configuración del temporizador</h1>
+  <h2>Agencia DobleFoco</h2>
+  <div>
+    <button onclick="startTimer()">Comenzar</button>
+    <button onclick="pauseTimer()">Pausar</button>
+    <button onclick="resetToTwenty()">Reiniciar a 20 minutos</button>
+  </div>
+  <div>
+    <input type="number" id="duration" placeholder="Minutos">
+    <button onclick="configureTimer()">Establecer duración</button>
+  </div>
+  <div class="status" id="status">Estado: Pausado</div>
+  <div class="time-remaining" id="time-remaining">Tiempo restante: 20 min 0 sec</div>
+  <script>
+    function startTimer() {
+      fetch('/start', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => updateStatus(data));
+    }
+
+    function pauseTimer() {
+      fetch('/pause', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => updateStatus(data));
+    }
+
+    function resetToTwenty() {
+      fetch('/configure', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ duration: 20 })
+      })
+        .then(response => response.json())
+        .then(data => updateStatus(data));
+    }
+
+    function configureTimer() {
+      const duration = document.getElementById('duration').value;
+      fetch('/configure', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ duration })
+      })
+        .then(response => response.json())
+        .then(data => updateStatus(data));
+    }
+
+    function updateStatus(data) {
+      const statusElement = document.getElementById('status');
+      const timeRemainingElement = document.getElementById('time-remaining');
+      const minutes = Math.floor(data.remaining / 60);
+      const seconds = data.remaining % 60;
+      timeRemainingElement.textContent = `Restante: ${minutes} min ${seconds} sec`;
+      statusElement.textContent = `Estado: ${data.running ? 'Corriendo' : 'Pausado'}`;
+      statusElement.style.color = data.running ? 'green' : 'red';
+    }
+
+    function fetchTimerStatus() {
+      fetch('/timer')
+        .then(response => response.json())
+        .then(data => updateStatus(data));
+    }
+
+    setInterval(fetchTimerStatus, 1000);
+    fetchTimerStatus();
+  </script>
+</body>
+</html>
