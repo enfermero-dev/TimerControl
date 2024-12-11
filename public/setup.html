@@ -14,44 +14,65 @@
       height: 100vh;
       margin: 0;
       font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      padding: 20px;
+      box-sizing: border-box;
     }
     h1 {
       margin: 0;
+      font-size: 2rem;
     }
     h2 {
       margin: 0;
-      margin-bottom: 30px;;
+      margin-bottom: 30px;
       color: rgb(211, 211, 211);
+      font-size: 1.5rem;
+    }
+    .controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
     }
     button {
       margin: 10px;
       padding: 10px 20px;
       font-size: 1rem;
+      width: 100%;
+      max-width: 200px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
     }
     input {
       margin: 10px;
       padding: 10px;
       font-size: 1rem;
+      width: calc(100% - 20px);
+      max-width: 200px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
-    .status {
+    .status, .time-remaining {
       margin: 20px;
-      font-size: 2rem;
-    }
-    .time-remaining {
-      margin: 20px;
-      font-size: 2rem;
+      font-size: 1.5rem;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <h1>Configuración del temporizador</h1>
-  <h2>Agencia DobleFoco</h2>
-  <div>
+  <h1>Configuración del Temporizador</h1>
+  <h2>Controla y ajusta el temporizador</h2>
+  <div class="controls">
     <button onclick="startTimer()">Comenzar</button>
     <button onclick="pauseTimer()">Pausar</button>
     <button onclick="resetToTwenty()">Reiniciar a 20 minutos</button>
-  </div>
-  <div>
     <input type="number" id="duration" placeholder="Minutos">
     <button onclick="configureTimer()">Establecer duración</button>
   </div>
