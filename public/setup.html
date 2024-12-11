@@ -37,7 +37,7 @@
       margin-bottom: 10px;
     }
     .time-remaining {
-      font-size: 2em;
+      font-size: 1.5em; /* Ajustar el tamaño del texto */
       margin-bottom: 20px;
     }
     .controls {
@@ -104,7 +104,7 @@
   </div>
   <div class="content">
     <div class="status" id="status">Estado: Pausado</div>
-    <div class="time-remaining" id="time-remaining">Tiempo restante: 20 min 0 seg</div>
+    <div class="time-remaining" id="time-remaining">Restante: 20 min 0 seg</div>
     <div class="controls">
       <div class="control-group">
         <button class="start" id="startButton" onclick="startTimer()">Comenzar</button>
@@ -134,15 +134,18 @@
     }
 
     function resetToTwenty() {
-      fetch('/configure', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ duration: 20 })
-      })
-        .then(response => response.json())
-        .then(data => updateStatus(data));
+      fetch('/pause', { method: 'POST' }) // Pausar el temporizador antes de reiniciar
+        .then(() => {
+          fetch('/configure', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ duration: 20 })
+          })
+            .then(response => response.json())
+            .then(data => updateStatus(data));
+        });
     }
 
     function configureTimer() {
