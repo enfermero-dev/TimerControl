@@ -1,117 +1,125 @@
 <!-- public/setup.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Configuración del Temporizador</title>
   <style>
     body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #121212;
-      color: #e0e0e0;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-    h1 {
-      margin: 0;
-      font-size: 2rem;
       color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
     }
-    h2 {
+    .header {
+      background-color: #1f1f1f;
+      padding: 20px;
+      text-align: center;
+    }
+    .header h1 {
       margin: 0;
-      margin-bottom: 30px;
-      color: #b0b0b0;
-      font-size: 1.5rem;
+      font-size: 1.5em;
     }
-    .controls {
+    .content {
+      flex: 1;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 100%;
-      max-width: 400px;
+      overflow-y: auto;
     }
-    .control-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
+    .status {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+    .time-remaining {
+      font-size: 2em;
       margin-bottom: 20px;
     }
-    button {
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 1rem;
+    .controls {
       width: 100%;
-      max-width: 200px;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .control-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .control-group button,
+    .control-group input {
+      width: 90%;
+      padding: 15px;
+      font-size: 1em;
+      margin-bottom: 10px;
       border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+      border-radius: 10px;
     }
-    button.start {
-      background-color: #28a745;
-      color: white;
+    .control-group input {
+      background-color: #1e1e1e;
+      color: #ffffff;
     }
-    button.start:disabled {
-      background-color: #6c757d;
-      cursor: not-allowed;
+    .control-group button.start {
+      background-color: #4caf50;
+      color: #ffffff;
     }
-    button.pause {
-      background-color: #6c757d;
-      color: white;
+    .control-group button.pause {
+      background-color: #f0ad4e;
+      color: #ffffff;
     }
-    button.pause:disabled {
-      background-color: #6c757d;
-      cursor: not-allowed;
+    .control-group button.reset {
+      background-color: #d9534f;
+      color: #ffffff;
     }
-    button.reset {
-      background-color: #dc3545;
-      color: white;
+    .control-group button.configure {
+      background-color: #5bc0de;
+      color: #ffffff;
     }
-    button:hover:not(:disabled) {
-      opacity: 0.8;
+    .control-group button:disabled {
+      background-color: #555555;
+      color: #aaaaaa;
     }
-    input {
-      margin: 10px;
+    .control-group button:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+    .footer {
+      background-color: #1f1f1f;
       padding: 10px;
-      font-size: 1rem;
-      width: calc(100% - 20px);
-      max-width: 200px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #333;
-      color: #e0e0e0;
-    }
-    .status, .time-remaining {
-      margin: 20px;
-      font-size: 1.5rem;
       text-align: center;
+      font-size: 0.9em;
     }
   </style>
 </head>
 <body>
-  <h1>Configuración del Temporizador</h1>
-  <h2>Controla y ajusta el temporizador</h2>
-  <div class="controls">
-    <div class="control-group">
-      <button class="start" id="startButton" onclick="startTimer()">Comenzar</button>
-      <button class="pause" id="pauseButton" onclick="pauseTimer()">Pausar</button>
-      <button class="reset" onclick="resetToTwenty()">Reiniciar a 20 minutos</button>
-    </div>
-    <div class="control-group">
-      <input type="number" id="duration" placeholder="Minutos">
-      <button onclick="configureTimer()">Establecer duración</button>
+  <div class="header">
+    <h1>Configuración del Temporizador</h1>
+  </div>
+  <div class="content">
+    <div class="status" id="status">Estado: Pausado</div>
+    <div class="time-remaining" id="time-remaining">Tiempo restante: 20 min 0 seg</div>
+    <div class="controls">
+      <div class="control-group">
+        <button class="start" id="startButton" onclick="startTimer()">Comenzar</button>
+        <button class="pause" id="pauseButton" onclick="pauseTimer()">Pausar</button>
+        <button class="reset" onclick="resetToTwenty()">Reiniciar a 20 minutos</button>
+      </div>
+      <div class="control-group">
+        <input type="number" id="duration" placeholder="Duración en minutos">
+        <button class="configure" onclick="configureTimer()">Establecer duración</button>
+      </div>
     </div>
   </div>
-  <div class="status" id="status">Estado: Pausado</div>
-  <div class="time-remaining" id="time-remaining">Tiempo restante: 20 min 0 sec</div>
+  <div class="footer">
+    &copy; 2023 Mi Aplicación de Temporizador
+  </div>
   <script>
     function startTimer() {
       fetch('/start', { method: 'POST' })
@@ -157,9 +165,8 @@
       const pauseButton = document.getElementById('pauseButton');
       const minutes = Math.floor(data.remaining / 60);
       const seconds = data.remaining % 60;
-      timeRemainingElement.textContent = `Tiempo restante: ${minutes} min ${seconds} sec`;
+      timeRemainingElement.textContent = `Restante: ${minutes} min ${seconds} seg`;
       statusElement.textContent = `Estado: ${data.running ? 'Corriendo' : 'Pausado'}`;
-      statusElement.style.color = data.running ? 'green' : 'red';
       startButton.disabled = data.running;
       pauseButton.disabled = !data.running;
     }
