@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Setup Timer</title>
+  <title>Configuración del Temporizador</title>
   <style>
     body {
       display: flex;
@@ -14,18 +14,20 @@
       height: 100vh;
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
+      background-color: #121212;
+      color: #e0e0e0;
       padding: 20px;
       box-sizing: border-box;
     }
     h1 {
       margin: 0;
       font-size: 2rem;
+      color: #ffffff;
     }
     h2 {
       margin: 0;
       margin-bottom: 30px;
-      color: rgb(211, 211, 211);
+      color: #b0b0b0;
       font-size: 1.5rem;
     }
     .controls {
@@ -46,6 +48,7 @@
       color: white;
       border-radius: 5px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
     button:hover {
       background-color: #0056b3;
@@ -58,6 +61,8 @@
       max-width: 200px;
       border: 1px solid #ccc;
       border-radius: 5px;
+      background-color: #333;
+      color: #e0e0e0;
     }
     .status, .time-remaining {
       margin: 20px;
